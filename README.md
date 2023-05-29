@@ -9,6 +9,8 @@ In galerkin.basefunctions the nodal base functions are defined split up into the
 
 The Element class provides a basic body for calculating the stiffness matrix.
 
+## Formulation of the pde
+
 The PDE must be directly defined in the weak form for the solver to function.
 
 The solver implicitly assumes fixed boundaries of the regions and moves the time derivative out of the term.
