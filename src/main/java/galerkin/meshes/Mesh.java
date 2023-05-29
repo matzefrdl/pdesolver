@@ -1,6 +1,7 @@
 package galerkin.meshes;
 
 import galerkin.PDE;
+import galerkin.WeakForm;
 import galerkin.basefunctions.BaseFunction;
 import galerkin.elements.Element;
 import galerkin.elements.Line;
@@ -19,47 +20,37 @@ public abstract class Mesh {
 
     protected int numKnots = 0;
 
-    public Matrix getGlobalLHSMatrix() {
-        Matrix ret = new Matrix(numKnots, numKnots);
+    private Matrix getGlobalMatrix(WeakForm wf) {
+        Matrix global = new Matrix(numKnots, numKnots);
 
         for(int i = 0; i < elements.length; i++) {
 
             Element element = elements[i];
-            Matrix K = element.getStiffness(pde.getLhs());
+            Matrix K = element.getStiffness(wf);
             int[] knots = element.getKnots();
             for(int j = 0; j < knots.length; j++) {
                 int k = knots[j];
                 Matrix r = K.getRow(j);
                 for(int x = 0; x < r.getColumnCount(); x++) {
                     float toAdd = r.get(0, x);
-                    ret.set(k, knots[x], ret.get(k, knots[x]) + toAdd);
+                    global.set(k, knots[x], global.get(k, knots[x]) + toAdd);
                 }
             }
         }
-        return ret;
+        return global;
     }
 
     public int getNumKnots() {
         return numKnots;
     }
 
-    public Matrix getGlobalRHSMatrix() {
-        Matrix ret = new Matrix(numKnots, numKnots);
 
-        for(int i = 0; i < elements.length; i++) {
-            Element element = elements[i];
-            Matrix K = element.getStiffness(pde.getRhs());
-            int[] knots = element.getKnots();
-            for(int j = 0; j < knots.length; j++) {
-                int k = knots[j];
-                Matrix r = K.getRow(j);
-                for(int x = 0; x < r.getColumnCount(); x++) {
-                    float toAdd = r.get(0, x);
-                    ret.set(k, knots[x], ret.get(k, knots[x]) + toAdd);
-                }
-            }
-        }
-        return ret;
+    public Matrix getGlobalLHSMatrix() {
+        return getGlobalMatrix(pde.getLhs());
+    }
+
+    public Matrix getGlobalRHSMatrix() {
+        return getGlobalMatrix(pde.getRhs());
     }
 
     public Element[] getElements() {
