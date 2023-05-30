@@ -1,3 +1,5 @@
+package examples;
+
 import galerkin.*;
 import galerkin.meshes.Mesh2D;
 import linearsolv.GaussElimination;
@@ -5,9 +7,8 @@ import maths.Matrix;
 import odesolver.RK4;
 import util.Plot;
 import util.Plot2DRenderer;
-import util.Timer;
 
-public class Main {
+public class HeatEquation {
 
     public static void main(String[] args)
     {

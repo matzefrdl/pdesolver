@@ -33,8 +33,8 @@ $$
 
 ## Solver
 
-Thus in the end a linear system of the form $M\frac{du}{dt} = K u$ is solved using gauss elimination (https://en.wikipedia.org/wiki/Gaussian_elimination#Pseudocode).
+In the end a linear system of the form $M\frac{du}{dt} = K u$ is solved using gauss elimination (https://en.wikipedia.org/wiki/Gaussian_elimination#Pseudocode).
 The resulting ODE is solved using RK4.
 
 ## Example
-The Main.java is an example for 2D heat equation on a simple square.
+In /examples/ one can find the 2d heat equation. Showing the heat flow starting from a patch in the middle.
